@@ -3,36 +3,54 @@ on:
   push:
     branches:
       - main
+      - test
       - dev
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: [ "main" ]
+
+permissions:
+  contents: read
 
 jobs:
   build:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif
+
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        - name: Checkmarx AST Github Action
-          uses: Checkmarx/ast-github-action@2.0.23
-          with:
-            # Provide the AST portal URL
-            base_uri: ${{secrets.CX_URL}}
-            # Provide the Tenant for AST portal URL
-            cx_tenant: ${{secrets.CX_TENANT}}
-            # Client ID for AST portal authentication
-            cx_client_id: ${{secrets.CX_CLIENT_ID}}
-            # Secret key for AST portal authentication
-            cx_client_secret: ${{secrets.CX_CLIENT_SECRET}}
-            # Select a Checkmarx Project Name
-            project_name: ${{github.repository}}
-            # Branch name
-            branch: # optional, default is ${{ github.head_ref || github.ref }}
-#            additional_params:
-        - name: Upload SARIF file
-          uses: github/codeql-action/upload-sarif@v2
-          with:
-            # Path to SARIF file relative to the root of the repository
-            sarif_file: cx_result.sarif
-      
+      # This step checks out a copy of your repository.
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      # This step creates the Checkmarx One scan
+      - name: Checkmarx AST Github Action
+        uses: Checkmarx/ast-github-action@2.0.23
+        with:
+          # Provide the AST portal URL
+          base_uri: ${{secrets.CX_URL}}
+          # Provide the Tenant for AST portal URL
+          cx_tenant: ${{secrets.CX_TENANT}}
+          # Client ID for AST portal authentication
+          cx_client_id: ${{secrets.CX_CLIENT_ID}}
+          # Secret key for AST portal authentication
+          cx_client_secret: ${{secrets.CX_CLIENT_SECRET}}
+          # Select a Checkmarx Project Name
+          project_name: ${{github.repository}}
+          # Branch name
+          branch: ${{ github.head_ref || github.ref }}
+          # additional_params: --sast-incremental
+          # additional_params: --threshold "sast-high=5; sast-medium=20; iac-security-high=5; sca-high=5; api-security-high=5"
+          # additional_params: --tags test1 test2 --scan-types sast,sca,kics --file-filter !readme --report-format sarif --output-name results
+          additional_params: --report-format sarif --output-path .
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          # Path to SARIF file relative to the root of the repository
+          sarif_file: cx_result.sarif      
       
 ##########################################################################################################################################      
 #      - name: Download SCA Resolver
