@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v3
       # This step creates the Checkmarx One scan
       - name: Checkmarx AST Github Action
-        uses: Checkmarx/ast-github-action@2.0.23
+        uses: Checkmarx/ast-github-action@latest
         with:
           # Provide the AST portal URL
           base_uri: ${{secrets.CX_URL}}
@@ -47,7 +47,7 @@ jobs:
           # additional_params: --tags test1 test2 --scan-types sast,sca,kics --file-filter !readme --report-format sarif --output-name results
           additional_params: --report-format sarif --output-path .
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           # Path to SARIF file relative to the root of the repository
           sarif_file: cx_result.sarif      
