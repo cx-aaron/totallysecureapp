@@ -1,4 +1,4 @@
-name: CxOne AppSec Scanning Pipeline - Test2
+name: CxOne AppSec Scanning Pipeline - Test3
 on:
   push:
     branches:
@@ -35,7 +35,7 @@ jobs:
 
       # Step 2: Run Checkmarx One Scan
       - name: Checkmarx AST Github Action
-        uses: Checkmarx/ast-github-action@2.0.44
+        uses: Checkmarx/ast-github-action@2.0.38
         with:
           # Provide the AST portal URL
           base_uri: ${{secrets.CX_URL}}
