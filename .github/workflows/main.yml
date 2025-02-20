@@ -1,4 +1,4 @@
-name: CxOne AppSec Scanning Pipeline - Test4
+name: CxOne AppSec Scanning Pipeline
 on:
   push:
     branches:
@@ -49,7 +49,7 @@ jobs:
           project_name: Prudential-Test
           # Branch Name
           branch: ${{ github.head_ref || github.ref }}
-          additional_params: --sast-incremental true --sast-preset-name "ASA Premium" --scan-types sast,sca,container-security --project-tags Singapore GTPT --tags Workshop Imtiyaz --scan-timeout 120 --file-filter !readme --report-format sarif --output-path . --output-name results
+          additional_params: --sast-incremental --sast-preset-name "ASA Premium" --scan-types sast,sca,container-security --project-tags Singapore GTPT --tags Workshop Imtiyaz --scan-timeout 120 --file-filter !readme --report-format sarif --output-path . --output-name results
 
       # Step 3: Upload SARIF file (Optional)
       #- name: Upload SARIF file
