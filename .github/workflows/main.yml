@@ -1,4 +1,4 @@
-name: CxOne AppSec Scanning Pipeline - Test1
+name: CxOne AppSec Scanning Pipeline - Test2
 on:
   push:
     branches:
