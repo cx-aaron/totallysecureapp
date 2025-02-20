@@ -62,14 +62,14 @@ jobs:
             --output-name results
 
       # Step 3: Upload SARIF file (Optional)
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          # Path to SARIF file relative to the root of the repository
-          sarif_file: results.sarif
-          # Optional category for the results
-          # Used to differentiate multiple results for one commit
-          category: Checkmarx Static Analysis
+      #- name: Upload SARIF file
+      #  uses: github/codeql-action/upload-sarif@v3
+      #  with:
+      #    # Path to SARIF file relative to the root of the repository
+      #    sarif_file: results.sarif
+      #    # Optional category for the results
+      #    # Used to differentiate multiple results for one commit
+      #    category: Checkmarx Static Analysis
 
   post_build_container_image_test:
     needs: pre_build_appsec_test
