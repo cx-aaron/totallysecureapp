@@ -1,4 +1,4 @@
-name: CxOne AppSec Scanning Pipeline - Test3
+name: CxOne AppSec Scanning Pipeline - Test4
 on:
   push:
     branches:
@@ -35,7 +35,7 @@ jobs:
 
       # Step 2: Run Checkmarx One Scan
       - name: Checkmarx AST Github Action
-        uses: Checkmarx/ast-github-action@2.0.38
+        uses: Checkmarx/ast-github-action@2.0.44
         with:
           # Provide the AST portal URL
           base_uri: ${{secrets.CX_URL}}
@@ -49,17 +49,7 @@ jobs:
           project_name: Prudential-Test
           # Branch Name
           branch: ${{ github.head_ref || github.ref }}
-          additional_params: >-
-            --sast-incremental true
-            --sast-preset-name "ASA Premium"
-            --scan-types sast,sca,container-security
-            --project-tags Singapore GTPT
-            --tags Workshop Imtiyaz
-            --scan-timeout 120
-            --file-filter !readme
-            --report-format sarif
-            --output-path .
-            --output-name results
+          additional_params: --sast-incremental true --sast-preset-name "ASA Premium" --scan-types sast,sca,container-security --project-tags Singapore GTPT --tags Workshop Imtiyaz --scan-timeout 120 --file-filter !readme --report-format sarif --output-path . --output-name results
 
       # Step 3: Upload SARIF file (Optional)
       #- name: Upload SARIF file
