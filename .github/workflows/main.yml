@@ -46,7 +46,7 @@ jobs:
           # Secret key for AST portal authentication
           cx_client_secret: ${{secrets.CX_CLIENT_SECRET}}
           # Checkmarx Project Name (defaults to GitHub repository name if not provided)
-          project_name:
+          project_name: Prudential-Test
           # Branch Name
           branch: ${{ github.head_ref || github.ref }}
           additional_params: --sast-incremental true
